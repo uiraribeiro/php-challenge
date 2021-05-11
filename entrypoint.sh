@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # cwd
-cd /var/wwww/php-challenge
+cd /var/www/php-challenge
 
 # composer install if vendors dir doesn't exist
 if [[ ! -f vendor/autoload.php ]]; then
@@ -11,9 +11,6 @@ if [[ ! -f vendor/autoload.php ]]; then
   # check setup
   php app/check.php
 
-  # install assets
-  php app/console assets:install --symlink
-  php app/console assetic:dump
 fi
 
 # run server

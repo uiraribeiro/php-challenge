@@ -60,9 +60,6 @@ COPY src ./src
 COPY web ./web
 
 RUN composer install || true
-RUN php app/console assets:install --symlink && \
-    php app/console assetic:dump
-
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
