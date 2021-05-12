@@ -36,4 +36,4 @@ What are we looking for
 - If you can dive into an old codebase
 - What is your rationale to change code
 - How you document previously undocumented project.
-
+- How you add features without breaking existing functionalities 
