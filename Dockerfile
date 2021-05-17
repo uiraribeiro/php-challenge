@@ -32,6 +32,7 @@ RUN apk update && apk add \
     php7-opcache \
     php7-xdebug \
     php7-bcmath \
+    php7-xdebug \
     git \
     grep \
     bash \
@@ -52,14 +53,15 @@ RUN php -r "unlink('composer-setup.php');"
 RUN mv composer.phar /usr/bin/composer
 RUN chmod +x /usr/bin/composer
 
+COPY xdebug.ini /etc/php7/conf.d/xdebug.ini
+
 WORKDIR /var/www/php-challenge
 
 COPY composer.json composer.lock ./
-COPY app ./app
-COPY src ./src
-COPY web ./web
+COPY . ./
 
 RUN composer install || true
+RUN php app/console assets:install --symlink
 
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

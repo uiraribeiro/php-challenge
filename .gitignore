@@ -1,2 +1,8 @@
 /app/cache/*
 /app/logs/*
+/vendor
+/bin/*
+/web/bundles
+.idea
+
+
