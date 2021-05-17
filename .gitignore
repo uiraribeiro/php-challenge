@@ -4,5 +4,5 @@
 /bin/*
 /web/bundles
 .idea
-
+/web/config.php
 
