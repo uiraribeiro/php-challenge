@@ -33,12 +33,14 @@ RUN apk update && apk add \
     php7-xdebug \
     php7-bcmath \
     php7-xdebug \
+    php7-xmlwriter \
     git \
     grep \
     bash \
     socat \
     bzip2 \
-    mysql-client
+    mysql-client \
+    sqlite
 
 # enable php errors
 RUN sed -i s/display_errors\ =\ Off/display_errors\ =\ On/g /etc/php7/php.ini

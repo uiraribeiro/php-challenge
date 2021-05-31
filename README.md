@@ -4,25 +4,37 @@ Coding challenge
 Introduction
 -------------
 
-This app has two different endpoints: one to list products and other to create a new product.
-Products have name, price (in cents) and a description.
+This app is about an API handling the products, customers and subscriptions of an online shop.
 
 How to run
 -----------
 
+```  
 docker-compose up -d
+``` 
 
+After that you need to init the database and load the fixture data, to do so enter the `php-challenge` container and run:
+``` 
+php app/console doctrine:schema:create --force
+```
+
+``` 
+php app/console doctrine:fixtures:load
+```
+
+
+Site is available at: http://localhost:9080, xdebug is listening at port 9002, you find the API calls available at http://localhost:9080/api/docs 
+
+
+To run the tests enter the container and run:
+
+`bin/simple-phpunit -c app/phpunit.xml src/AppBundle`
+
+The tests will create a code coverage which is available in the `build` folder. 
 
 Tasks
 -----
-
-1. The POST endpoint has at least one problem and we need you to fix it.
-   Discovering what the problems are is also part of the job
-2. The prices to be displayed as a currency. ex: 100 == 1,00
-3. When creating the product price should be accepted as a currency value. ex: 54,98
-4. These are old API endpoints and people are using it.
-5. Products need to save its billing cycle: "anual" or "monthly" (default "monthly") - 
-   adding a field is considerable backwards compatible
+You find the tasks and their description
 
 After you finish please document your decisions. Your also free to add extra documentation
 on how to run the project in case you make changes to its setup.

@@ -963,20 +963,28 @@ $this->server->set('REQUEST_METHOD', $method);
 }
 public function getMethod()
 {
-if (null === $this->method) {
-$this->method = strtoupper($this->server->get('REQUEST_METHOD','GET'));
-if ('POST'=== $this->method) {
-if ($method = $this->headers->get('X-HTTP-METHOD-OVERRIDE')) {
-$this->method = strtoupper($method);
-} elseif (self::$httpMethodParameterOverride) {
-$method = $this->request->get('_method', $this->query->get('_method','POST'));
-if (\is_string($method)) {
-$this->method = strtoupper($method);
-}
-}
-}
-}
+if (null !== $this->method) {
 return $this->method;
+}
+$this->method = strtoupper($this->server->get('REQUEST_METHOD','GET'));
+if ('POST'!== $this->method) {
+return $this->method;
+}
+$method = $this->headers->get('X-HTTP-METHOD-OVERRIDE');
+if (!$method && self::$httpMethodParameterOverride) {
+$method = $this->request->get('_method', $this->query->get('_method','POST'));
+}
+if (!\is_string($method)) {
+return $this->method;
+}
+$method = strtoupper($method);
+if (\in_array($method, array('GET','HEAD','POST','PUT','DELETE','CONNECT','OPTIONS','PATCH','PURGE','TRACE'), true)) {
+return $this->method = $method;
+}
+if (!preg_match('/^[A-Z]++$/D', $method)) {
+throw new \UnexpectedValueException(sprintf('Invalid method override "%s".', $method));
+}
+return $this->method = $method;
 }
 public function getRealMethod()
 {
@@ -2505,11 +2513,11 @@ protected $booted = false;
 protected $name;
 protected $startTime;
 protected $loadClassCache;
-const VERSION ='2.8.48';
-const VERSION_ID = 20848;
+const VERSION ='2.8.52';
+const VERSION_ID = 20852;
 const MAJOR_VERSION = 2;
 const MINOR_VERSION = 8;
-const RELEASE_VERSION = 48;
+const RELEASE_VERSION = 52;
 const EXTRA_VERSION ='';
 const END_OF_MAINTENANCE ='11/2018';
 const END_OF_LIFE ='11/2019';

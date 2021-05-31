@@ -1,3 +1,10 @@
 app:
-    resource: '@AppBundle/Controller/'
-    type: annotation
+    resource: '@AppBundle/Resources/config/routing.yml'
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
+
+nelmio_api_swagger:
+    resource: "@NelmioApiDocBundle/Resources/config/swagger_routing.yml"
+    prefix: /api/swagger

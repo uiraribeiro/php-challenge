@@ -1,0 +1,28 @@
+default:
+  path: /
+  defaults: { _controller: "AppBundle:Default:index" }
+
+customers:
+  type: rest
+  resource: "@AppBundle/Controller/CustomersController.php"
+  prefix: /api/
+
+customer_stores:
+  type: rest
+  resource: "@AppBundle/Controller/CustomerStoresController.php"
+  prefix: /api/customers
+
+customer_subscriptions:
+  type: rest
+  resource: "@AppBundle/Controller/CustomerSubscriptionsController.php"
+  prefix: /api/customers
+
+items:
+  type: rest
+  resource: "@AppBundle/Controller/ItemController.php"
+  prefix: /api/products
+
+products:
+  type: rest
+  resource: "@AppBundle/Controller/ItemProductsController.php"
+  prefix: /api/products/items

@@ -5,4 +5,5 @@
 /web/bundles
 .idea
 /web/config.php
-
+/build
+.db_dumps/*.sql.gz

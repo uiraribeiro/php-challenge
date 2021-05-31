@@ -7,3 +7,71 @@ services:
     #service_name:
     #    class: AppBundle\Directory\ClassName
     #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
+
+  app.mail_service:
+    class: AppBundle\Lib\MailerService
+    calls:
+      - ['setLogger',["@logger"]]
+
+  app.customer.service:
+    class: AppBundle\Lib\Customer\CustomerService
+    arguments: ["@doctrine.orm.default_entity_manager", "@event_dispatcher", "@validator"]
+    calls:
+      - ['setLogger',["@logger"]]
+
+  app.store.service:
+    class: AppBundle\Lib\Store\StoreService
+    arguments: ["@doctrine.orm.default_entity_manager", "@event_dispatcher", "@validator"]
+    calls:
+      - ['setLogger',["@logger"]]
+
+  app.subscription.service:
+    class: AppBundle\Lib\Subscription\SubscriptionService
+    arguments: ["@doctrine.orm.default_entity_manager", "@event_dispatcher", "@validator"]
+    calls:
+      - ['setLogger',["@logger"]]
+
+  app.product.service:
+    class: AppBundle\Lib\Product\ProductService
+    arguments: ["@doctrine.orm.default_entity_manager", "@event_dispatcher", "@validator"]
+    calls:
+      - ['setLogger',["@logger"]]
+
+  app.item.service:
+    class: AppBundle\Lib\Item\ItemService
+    arguments: ["@doctrine.orm.default_entity_manager", "@event_dispatcher", "@validator"]
+    calls:
+      - ['setLogger',["@logger"]]
+
+  app.stock.service:
+    class: AppBundle\Lib\Stock\StockService
+    arguments: ["@doctrine.orm.default_entity_manager", "@event_dispatcher", "@validator"]
+    calls:
+      - ['setLogger',["@logger"]]
+
+  app.mailing.subscriber:
+    class: AppBundle\Lib\EventSubscriber\MailingSubscriber
+    arguments: ["@app.mail_service"]
+    calls:
+      - ['setLogger',["@logger"]]
+    tags:
+      - { name: kernel.event_subscriber }
+
+  app.subscription.shipping.subscriber:
+    class: AppBundle\Lib\Subscription\Subscriber\ShipmentSubscriber
+    arguments: ["@doctrine.orm.default_entity_manager"]
+    calls:
+      - ['setLogger',["@logger"]]
+    tags:
+      - { name: kernel.event_subscriber }
+
+  app.change.listener:
+    class: AppBundle\Lib\Entity\ChangeListener
+    tags:
+      - { name: doctrine.event_listener, event: postLoad, connection: default }
+
+  app.stock_request_validator:
+    class: AppBundle\Lib\Stock\Validator\StockUpValidValidator
+    arguments: ["@doctrine.orm.default_entity_manager"]
+    tags:
+      - { name: validator.constraint_validator }

@@ -19,3 +19,9 @@ services:
             - MARIADB_PASSWORD=password
         ports:
             - 4306:3306
+        volumes:
+            # this volume has to contain the structure and the data dumps
+            # they need to be in the order they are to be applied
+            # so renaming them to e.g. 2data.sql.gz and 1structure.sql.gz
+            # might be necessary
+            - ./.db_dumps:/docker-entrypoint-initdb.d
