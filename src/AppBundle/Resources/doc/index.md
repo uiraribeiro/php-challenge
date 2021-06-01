@@ -30,3 +30,7 @@ Every subscription is linked to a product, and to a store, it has a start date, 
 Shipment
 --------
 This is the place where we plan our shipments, whenever a customers creates a new subscription the shipments are planned here by adding a record for each month of the subscription time. If a customer cancel his subscription before the end of his subscription period, the outstanding subscriptions are marked as canceled.
+
+The API
+-------
+The API is available at http://localhost:9080/api/doc
