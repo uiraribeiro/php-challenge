@@ -34,7 +34,9 @@ The tests will create a code coverage which is available in the `build` folder.
 
 Tasks
 -----
-**[You find the tasks and their description](src/AppBundle/Resources/doc/challenges/index.md)**
+**[You find the tasks and their description here](src/AppBundle/Resources/doc/challenges/index.md)**
+
+You should also read through the **[project description](src/AppBundle/Resources/doc/index.md)** for a small introduction what the test project is about.
 
 After you finished please document your decisions. Your also free to add extra documentation
 on how to run the project in case you make changes to its setup.
