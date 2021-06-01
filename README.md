@@ -15,7 +15,7 @@ docker-compose up -d
 
 After that you need to init the database and load the fixture data, to do so enter the `php-challenge` container and run:
 ``` 
-php app/console doctrine:schema:create --force
+php app/console doctrine:schema:create
 ```
 
 ``` 
