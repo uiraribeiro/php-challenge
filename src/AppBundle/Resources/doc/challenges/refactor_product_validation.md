@@ -1,4 +1,4 @@
-#User Story: As a developer I want to refactor the product validation
+##User Story: As a developer I want to refactor the product validation
 As a developer 
 I want to refactor the product validation
 So that it is easier to understand I can reduce technical dept
