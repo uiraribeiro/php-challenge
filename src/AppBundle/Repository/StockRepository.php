@@ -6,6 +6,7 @@ use AppBundle\Entity\Item;
 use AppBundle\Entity\Shipment;
 use AppBundle\Entity\Stock;
 use AppBundle\Lib\DbalQueryBuilderHelper;
+use AppBundle\Lib\Stock\Form\StockUpRequestDto;
 use AppBundle\Lib\Tools;
 use Doctrine\DBAL\Query\QueryBuilder;
 
@@ -24,7 +25,7 @@ class StockRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('s', 'shipments', 'sm', 's.item_id = sm.item_id AND s.country_id = sm.country_id AND s.at_date = sm.shipping_date')
             ->groupBy('s.id');
 
-        $qb->andWhere($qb->expr()->in('sm.state', ':state'))
+        $qb->andWhere($qb->expr()->orX()->add($qb->expr()->in('sm.state', ':state'))->add($qb->expr()->isNull('sm.state')))
             ->setParameter('state', [Shipment::SHIPMENT_PENDING, Shipment::SHIPMENT_SHIPPED], \Doctrine\DBAL\Connection::PARAM_INT_ARRAY);
 
         $map = [
@@ -49,6 +50,11 @@ class StockRepository extends \Doctrine\ORM\EntityRepository
             $qb->andWhere($qb->expr()->gte('s.at_date', ':from'))->setParameter('from', $filter['from']->format('Y-m-01'));
         }
 
+        if (array_key_exists('until', $filter) && $filter['until'] instanceof \DateTime) {
+            $qb->andWhere($qb->expr()->lte('s.at_date', ':until'))->setParameter('until', $filter['until']->format('Y-m-01'));
+        }
+
+
         $sort_map = [
             'item' => 's.item_id',
             'country' => 's.country_id',
@@ -62,9 +68,25 @@ class StockRepository extends \Doctrine\ORM\EntityRepository
         return DbalQueryBuilderHelper::buildSort($qb, $sort, $sort_map, $sort_defaults);
     }
 
-    public function stockUp(int $item, string $country, int $quantity, \DateTime $start, \DateTime $end) :bool
+    /**
+     * Updates the stock with the given values
+     *
+     * @param int $item
+     * @param string $country
+     * @param int $quantity
+     * @param \DateTime $start
+     * @param \DateTime $end
+     * @param int $mode
+     * @return bool
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    public function stockUp(int $item, string $country, int $quantity, \DateTime $start, \DateTime $end, int $mode = StockUpRequestDto::MODE_REPLACE) :bool
     {
-        $sql = "REPLACE INTO stock (item_id, country_id, at_date, quantity) VALUES(:item_id, :country_id, :at_date, :quantity)";
+        $sql = 'REPLACE INTO stock (item_id, country_id, at_date, quantity) VALUES(:item_id, :country_id, :at_date, :quantity)';
+
+        if ($mode === StockUpRequestDto::MODE_UPDATE ) {
+            $sql = 'INSERT INTO stock (item_id, country_id, at_date, quantity) VALUES(:item_id, :country_id, :at_date, :quantity) ON DUPLICATE KEY UPDATE quantity = :quantity';
+        }
 
         $stmt = $this->getEntityManager()->getConnection()->prepare($sql);
 

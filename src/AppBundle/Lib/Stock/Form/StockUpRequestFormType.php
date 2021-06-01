@@ -31,4 +31,9 @@ class StockUpRequestFormType extends AbstractType
     {
         $resolver->setDefaults(['data_class' => StockUpRequestDto::class, 'csrf_protection' => false]);
     }
+
+    public function getBlockPrefix() :string
+    {
+        return '';
+    }
 }

@@ -71,7 +71,7 @@ services:
       - { name: doctrine.event_listener, event: postLoad, connection: default }
 
   app.stock_request_validator:
-    class: AppBundle\Lib\Stock\Validator\StockUpValidValidator
+    class: AppBundle\Lib\Stock\Validator\StockUpRequestValidValidator
     arguments: ["@doctrine.orm.default_entity_manager"]
     tags:
       - { name: validator.constraint_validator }

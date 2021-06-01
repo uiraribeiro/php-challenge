@@ -26,3 +26,8 @@ products:
   type: rest
   resource: "@AppBundle/Controller/ItemProductsController.php"
   prefix: /api/products/items
+
+stock:
+  type: rest
+  resource: "@AppBundle/Controller/itemStockController.php"
+  prefix: /api/products/items

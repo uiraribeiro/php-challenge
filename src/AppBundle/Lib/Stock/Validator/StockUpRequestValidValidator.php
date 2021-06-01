@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class StockUpValidValidator extends ConstraintValidator
+class StockUpRequestValidValidator extends ConstraintValidator
 {
     /**
      * @var EntityManager
@@ -44,9 +44,9 @@ class StockUpValidValidator extends ConstraintValidator
                 ->addViolation();
         }
         $mode = $value->getMode();
-        if ($mode === null || !in_array($mode, [StockUpRequestDto::MODE_REPLACE, StockUpRequestDto::MODE_UPDATE], true)) {
+        if ($mode === null || !in_array((int) $mode, [StockUpRequestDto::MODE_REPLACE, StockUpRequestDto::MODE_UPDATE], true)) {
             $this->context->buildViolation('You must provide a valid mode')
-                ->atPath('from')
+                ->atPath('mode')
                 ->addViolation();
         }
 
@@ -108,9 +108,9 @@ class StockUpValidValidator extends ConstraintValidator
 
     /**
      * @param EntityManager $entityManager
-     * @return StockUpValidValidator
+     * @return StockUpRequestValidValidator
      */
-    public function setEntityManager(EntityManager $entityManager): StockUpValidValidator
+    public function setEntityManager(EntityManager $entityManager): StockUpRequestValidValidator
     {
         $this->entityManager = $entityManager;
         return $this;
