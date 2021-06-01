@@ -1,4 +1,5 @@
-##Challenges
+Challenges
+==========
 Pick **one** of the challenges (you can pick more, if you want and got nothing better to do). The complexity is noted next to the title.
 
 * [Upgrade the symfony version](upgrade_symfony_version.md) (5)
