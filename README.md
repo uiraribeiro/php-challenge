@@ -12,14 +12,39 @@ How to run
 ```  
 docker-compose up -d
 ``` 
+Note: the included docker-compose.yml is supposed to run on linux, if you're using a different host os, you will need to adapt it:
 
-After that you need to init the database and load the fixture data, to do so enter the `php-challenge` container and run:
+```  
+php-challenge:
+    build: .
+    volumes:
+        - .:/var/www/php-challenge
+    ports:
+        - 9080:9080
+    # remove if you're using a mac or windows
+    extra_hosts:    
+        - "host.docker.internal:host-gateway"
 ``` 
-php app/console doctrine:schema:create
-```
+You will also need to adapt xdebug.ini 
+```  
+max_execution_time=-1
 
+; Uncomment to enable this extension.
+zend_extension=xdebug.so
+xdebug.remote_enable=on
+xdebug.remote_host=host.docker.internal ; change to docker.for.mac.host.internal if its not working
+xdebug.remote_port=9002
+xdebug.idekey=PHPSTORM
 ``` 
-php app/console doctrine:fixtures:load
+
+The database should have been initialized automatically and its tables should hold fixture data.  
+
+If you want to init it again you can either remove the database container `docker-compose rm db` or within the php container using:
+``` 
+bash-4.4# php app/console doctrine:database:drop
+bash-4.4# php app/console doctrine:database:create
+bash-4.4# php app/console doctrine:schema:create
+bash-4.4# php app/console doctrine:fixtures:load
 ```
 
 
