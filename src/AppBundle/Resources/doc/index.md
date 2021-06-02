@@ -9,11 +9,11 @@ This is the stuff we sell. (Mostly apples at the moment)
 
 Products
 --------
-Our products are based on the items, one item can have as many products as you want or see fit. Each product is available in a single country, they have a price, a VAT rate, individual shipping costs, a minimal quantity and since we are selling on a subscription base a minimal subscription time. Each product is only available in a time frame. 
+Our products are based on the items, one item can have as many products as you want or see fit. Each product is available in a single country, where wthey have a price, a VAT rate, individual shipping costs and a minimal quantity and since we are selling on a subscription base a minimal subscription time. Each product is only available in a time frame. 
 
 Stock
 -----
-This is where we're storing our items, it contains information how many items are available per country and month. Since the people preferring fresh fruits, the stock is cleared at the end of each month.   
+This is where we're storing our items, it contains information how many items are available per country and month. Since the people prefer fresh fruits, the stock is cleared at the end of each month.   
 
 Customers
 ---------
